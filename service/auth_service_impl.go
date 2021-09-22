@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"strings"
 
 	"github.com/ryuuzake/todolist-gofiber/model"
 	"github.com/ryuuzake/todolist-gofiber/repository"
@@ -22,4 +23,18 @@ func (service *AuthServiceImpl) RegisterUser(email, password string) error {
 	}
 
 	return nil
+}
+
+func (service *AuthServiceImpl) LoginUser(email string, password string) (model.User, error) {
+	user, err := service.Repository.FindByEmail(email)
+	if err != nil {
+		return model.User{}, errors.New("user not found")
+	}
+
+	// TODO: Check User password hash
+	if strings.Compare(user.Password, password) != 0 {
+		return model.User{}, errors.New("user creds failed")
+	}
+
+	return user, nil
 }
