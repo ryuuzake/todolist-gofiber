@@ -45,7 +45,35 @@ func (controller *AuthControllerImpl) RegisterUser(ctx *fiber.Ctx) error {
 }
 
 func (controller *AuthControllerImpl) LoginUser(ctx *fiber.Ctx) error {
-	return nil
+	loginUserPayload := new(validator.LoginUserPayload)
+
+	// TODO: Error Handling with GoFiber
+	if err := ctx.BodyParser(loginUserPayload); err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	validationErr := validator.ValidateLoginUserPayload(loginUserPayload)
+	// TODO: Error Handling with GoFiber
+	if validationErr != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(validationErr)
+	}
+
+	token, err := controller.Service.LoginUser(
+		loginUserPayload.Email,
+		loginUserPayload.Password,
+	)
+
+	// TODO: Error Handling with GoFiber
+	if err != nil {
+		return ctx.Status(fiber.StatusUnprocessableEntity).JSON(fiber.Map{
+			"message": err,
+		})
+	}
+
+	// TODO: Send JWT Token
+	return ctx.JSON(token)
 }
 
 func (controller *AuthControllerImpl) ForgetPassword(ctx *fiber.Ctx) error {
