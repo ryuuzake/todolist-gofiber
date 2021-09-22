@@ -21,15 +21,23 @@ func (controller *AuthControllerImpl) RegisterUser(ctx *fiber.Ctx) error {
 		})
 	}
 
-	errors := validator.ValidateRegisterUserPayload(registerUserPayload)
-	if errors != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(errors)
+	validationErr := validator.ValidateRegisterUserPayload(registerUserPayload)
+	// TODO: Error Handling with GoFiber
+	if validationErr != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(validationErr)
 	}
 
-	controller.Service.RegisterUser(
+	ok := controller.Service.RegisterUser(
 		registerUserPayload.Email,
 		registerUserPayload.Password,
 	)
+
+	// TODO: Error Handling with GoFiber
+	if ok != nil {
+		return ctx.Status(fiber.StatusUnprocessableEntity).JSON(fiber.Map{
+			"message": ok,
+		})
+	}
 
 	return ctx.JSON(fiber.Map{
 		"message": "success",

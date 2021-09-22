@@ -1,5 +1,5 @@
 package service
 
 type AuthService interface {
-	RegisterUser(email, password string) (interface{}, error)
+	RegisterUser(email, password string) error
 }
