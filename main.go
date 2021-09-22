@@ -14,5 +14,5 @@ func main() {
 		Service: &service.AuthServiceImpl{},
 	})
 
-	app.Listen(":3000")
+	app.Listen("localhost:3000")
 }
