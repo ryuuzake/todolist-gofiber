@@ -18,3 +18,37 @@ func (service TodolistServiceImpl) GetAll() ([]model.Todolist, error) {
 
 	return todolists, nil
 }
+
+func (service TodolistServiceImpl) GetById(id int) (model.Todolist, error) {
+	todolist, err := service.Repository.FindById(id)
+
+	if err != nil {
+		return model.Todolist{}, err
+	}
+
+	return todolist, nil
+}
+
+func (service TodolistServiceImpl) Create(todolist model.Todolist) error {
+	if err := service.Repository.Create(todolist); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (service TodolistServiceImpl) Update(id int, todolist model.Todolist) error {
+	if err := service.Repository.UpdateById(id, todolist); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (service TodolistServiceImpl) Delete(id int) error {
+	if err := service.Repository.DeleteById(id); err != nil {
+		return err
+	}
+
+	return nil
+}
