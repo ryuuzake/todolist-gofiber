@@ -11,6 +11,10 @@ type UserRepositoryInMemoryImpl struct {
 	Users []model.User
 }
 
+func (repo *UserRepositoryInMemoryImpl) FindAll() ([]model.User, error) {
+	return repo.Users, nil
+}
+
 func (repo *UserRepositoryInMemoryImpl) FindByEmail(email string) (model.User, error) {
 	for _, user := range repo.Users {
 		if strings.Compare(user.Email, email) == 0 {

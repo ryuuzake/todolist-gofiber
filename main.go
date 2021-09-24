@@ -12,6 +12,16 @@ import (
 func main() {
 	app := fiber.New()
 
+	userRepository := &repository.UserRepositoryInMemoryImpl{
+		Users: make([]model.User, 0),
+	}
+
+	domain.Admin(app, &controller.AdminControllerImpl{
+		Service: &service.AdminServiceImpl{
+			Repository: userRepository,
+		},
+	})
+
 	domain.Todolist(app, &controller.TodolistControllerImpl{
 		Service: &service.TodolistServiceImpl{
 			Repository: &repository.TodolistRepositoryInMemoryImpl{
@@ -22,9 +32,7 @@ func main() {
 
 	domain.Auth(app, &controller.AuthControllerImpl{
 		Service: &service.AuthServiceImpl{
-			Repository: &repository.UserRepositoryInMemoryImpl{
-				Users: make([]model.User, 0),
-			},
+			Repository: userRepository,
 		},
 	})
 
