@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"time"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/ryuuzake/todolist-gofiber/service"
 	"github.com/ryuuzake/todolist-gofiber/validator"
@@ -72,8 +74,12 @@ func (controller *AuthControllerImpl) LoginUser(ctx *fiber.Ctx) error {
 		})
 	}
 
-	// TODO: Send JWT Token
-	return ctx.JSON(token)
+	return ctx.JSON(fiber.Map{
+		"access_token": token,
+		"token_type":   "Bearer",
+		// TODO: Remove Duplication, probably by creating Token struct type
+		"expired_in": time.Now().Add(time.Hour * 72).Unix(),
+	})
 }
 
 func (controller *AuthControllerImpl) ForgetPassword(ctx *fiber.Ctx) error {
