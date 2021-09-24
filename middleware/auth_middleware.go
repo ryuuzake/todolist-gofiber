@@ -43,9 +43,9 @@ func AuthenticatedWithRole(role string) func(*fiber.Ctx) error {
 func jwtCheckRole(ctx *fiber.Ctx, role string) error {
 	user := ctx.Locals("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
-	roleClaim := claims["role"].(string)
+	roleClaim := claims["role"]
 
-	if strings.Compare(roleClaim, role) == 0 {
+	if roleClaim == nil || strings.Compare(roleClaim.(string), role) != 0 {
 		return ctx.Status(fiber.StatusForbidden).JSON(fiber.Map{
 			"message": "Forbidden",
 		})
