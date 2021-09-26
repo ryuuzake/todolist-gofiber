@@ -8,8 +8,14 @@ type User struct {
 	Email          string
 	Password       string
 	ForgetPassword string
+	RoleId         int
+	Role           Role
 	CreatedAt      time.Time
 	UpdatedAt      time.Time
 }
 
-// TODO: Add Role Struct
+type Role struct {
+	Id          int
+	Name        string
+	Description string
+}

@@ -3,6 +3,7 @@ package repository
 import (
 	"errors"
 	"strings"
+	"time"
 
 	"github.com/ryuuzake/todolist-gofiber/model"
 )
@@ -26,6 +27,12 @@ func (repo *UserRepositoryInMemoryImpl) FindByEmail(email string) (model.User, e
 }
 
 func (repo *UserRepositoryInMemoryImpl) Create(user model.User) error {
+	// Add Default Option
+	user.Id = cap(repo.Users) + 1
+	user.RoleId = 2 // Normal User Role Id
+	user.CreatedAt = time.Now()
+	user.UpdatedAt = time.Now()
+
 	repo.Users = append(repo.Users, user)
 
 	return nil

@@ -13,7 +13,16 @@ func main() {
 	app := fiber.New()
 
 	userRepository := &repository.UserRepositoryInMemoryImpl{
-		Users: make([]model.User, 0),
+		Users: []model.User{
+			{Id: 1, Email: "admin@example.com", Password: "password", RoleId: 1},
+		},
+	}
+
+	roleRepository := &repository.RoleRepositoryInMemoryImpl{
+		Roles: []model.Role{
+			{Id: 1, Name: "admin", Description: "Admin Role for User"},
+			{Id: 2, Name: "normal", Description: "Normal User"},
+		},
 	}
 
 	domain.Admin(app, &controller.AdminControllerImpl{
@@ -32,7 +41,8 @@ func main() {
 
 	domain.Auth(app, &controller.AuthControllerImpl{
 		Service: &service.AuthServiceImpl{
-			Repository: userRepository,
+			UserRepository: userRepository,
+			RoleRepository: roleRepository,
 		},
 	})
 
