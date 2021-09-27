@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"github.com/ryuuzake/todolist-gofiber/config"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
@@ -10,8 +11,7 @@ import (
 
 func Authenticated() func(*fiber.Ctx) error {
 	return jwtware.New(jwtware.Config{
-		// TODO: Random Generated Key
-		SigningKey:   []byte("secret"),
+		SigningKey:   config.Config.JWTSecret,
 		ErrorHandler: jwtError,
 	})
 }
@@ -30,8 +30,7 @@ func jwtError(ctx *fiber.Ctx, err error) error {
 
 func AuthenticatedWithRole(role string) func(*fiber.Ctx) error {
 	return jwtware.New(jwtware.Config{
-		// TODO: Random Generated Key
-		SigningKey: []byte("secret"),
+		SigningKey: config.Config.JWTSecret,
 		// TODO: Weird Handling of passing parameter role
 		SuccessHandler: func(c *fiber.Ctx) error {
 			return jwtCheckRole(c, role)

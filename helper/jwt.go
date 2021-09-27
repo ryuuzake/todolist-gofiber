@@ -3,6 +3,7 @@ package helper
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/ryuuzake/todolist-gofiber/config"
 	"github.com/ryuuzake/todolist-gofiber/model"
 	"time"
 )
@@ -60,10 +61,9 @@ func EncodeJWT(user model.User) (string, error) {
 	// Claim for role
 	claims["role"] = user.Role.Name
 
-	// TODO: Make Expire Time more readable
+	// 72 hours = 3 days, from now
 	claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
 
 	// Generate encoded token and send it as response.
-	// TODO: Random Generated Key same as in auth_middleware.go
-	return token.SignedString([]byte("secret"))
+	return token.SignedString(config.Config.JWTSecret)
 }

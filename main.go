@@ -2,15 +2,20 @@ package main
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/ryuuzake/todolist-gofiber/config"
 	"github.com/ryuuzake/todolist-gofiber/controller"
 	"github.com/ryuuzake/todolist-gofiber/domain"
+	"github.com/ryuuzake/todolist-gofiber/middleware"
 	"github.com/ryuuzake/todolist-gofiber/model"
 	"github.com/ryuuzake/todolist-gofiber/repository"
 	"github.com/ryuuzake/todolist-gofiber/service"
+	"log"
 )
 
 func main() {
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		ErrorHandler: middleware.ErrorHandler,
+	})
 
 	userRepository := &repository.UserRepositoryInMemoryImpl{
 		Users: []model.User{
@@ -49,5 +54,5 @@ func main() {
 		},
 	})
 
-	app.Listen("localhost:3000")
+	log.Fatal(app.Listen(config.Config.Address))
 }
