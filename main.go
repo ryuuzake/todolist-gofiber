@@ -36,6 +36,9 @@ func main() {
 			Repository: &repository.TodolistRepositoryInMemoryImpl{
 				Todolists: make([]model.Todolist, 0),
 			},
+			TodoRepository: &repository.TodoRepositoryInMemoryImpl{
+				Todos: make([]model.Todo, 0),
+			},
 		},
 	})
 

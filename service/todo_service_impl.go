@@ -6,39 +6,40 @@ import (
 )
 
 type TodoServiceImpl struct {
-	Repository repository.TodolistRepository
+	TodoRepository repository.TodoRepository
+	Repository     repository.TodolistRepository
 }
 
-func (service TodoServiceImpl) GetAll() ([]model.Todolist, error) {
-	todolists, err := service.Repository.FindAll()
+func (service TodoServiceImpl) GetAll() ([]model.Todo, error) {
+	todos, err := service.TodoRepository.FindAll()
 
 	if err != nil {
 		return nil, err
 	}
 
-	return todolists, nil
+	return todos, nil
 }
 
-func (service TodoServiceImpl) GetById(id int) (model.Todolist, error) {
-	todolist, err := service.Repository.FindById(id)
+func (service TodoServiceImpl) GetById(id int) (model.Todo, error) {
+	todo, err := service.TodoRepository.FindById(id)
 
 	if err != nil {
-		return model.Todolist{}, err
+		return model.Todo{}, err
 	}
 
-	return todolist, nil
+	return todo, nil
 }
 
-func (service TodoServiceImpl) Create(todolist model.Todolist) error {
-	if err := service.Repository.Create(todolist); err != nil {
+func (service TodoServiceImpl) Create(todo model.Todo) error {
+	if err := service.TodoRepository.Create(todo); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func (service TodoServiceImpl) Update(id int, todolist model.Todolist) error {
-	if err := service.Repository.UpdateById(id, todolist); err != nil {
+func (service TodoServiceImpl) Update(id int, todo model.Todo) error {
+	if err := service.TodoRepository.UpdateById(id, todo); err != nil {
 		return err
 	}
 
@@ -46,7 +47,7 @@ func (service TodoServiceImpl) Update(id int, todolist model.Todolist) error {
 }
 
 func (service TodoServiceImpl) Delete(id int) error {
-	if err := service.Repository.DeleteById(id); err != nil {
+	if err := service.TodoRepository.DeleteById(id); err != nil {
 		return err
 	}
 

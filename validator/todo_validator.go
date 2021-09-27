@@ -8,13 +8,17 @@ type UpdateTodolistPayload struct {
 	Task string `json:"task" xml:"task" form:"task" validate:""`
 }
 
-func ValidateCreateTodoPayload(payload *CreateTodolistPayload) []*ErrorResponse {
+type TodoPayload struct {
+	Title string `json:"title" xml:"title" form:"title" validate:"required"`
+}
+
+func ValidateCreateTodoPayload(payload *TodoPayload) []*ErrorResponse {
 	errors := ValidateStruct(*payload)
 
 	return errors
 }
 
-func ValidateUpdateTodoPayload(payload *UpdateTodolistPayload) []*ErrorResponse {
+func ValidateUpdateTodoPayload(payload *TodoPayload) []*ErrorResponse {
 	errors := ValidateStruct(*payload)
 
 	return errors

@@ -14,7 +14,7 @@ type TodoControllerImpl struct {
 }
 
 func (controller TodoControllerImpl) GetAll(ctx *fiber.Ctx) error {
-	todolists, err := controller.Service.GetAll()
+	todos, err := controller.Service.GetAll()
 
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -22,18 +22,18 @@ func (controller TodoControllerImpl) GetAll(ctx *fiber.Ctx) error {
 		})
 	}
 
-	return ctx.JSON(todolists)
+	return ctx.JSON(todos)
 }
 
 func (controller TodoControllerImpl) GetById(ctx *fiber.Ctx) error {
-	todolistId, err := strconv.Atoi(ctx.Params("todolistId"))
+	todoId, err := strconv.Atoi(ctx.Params("todoId"))
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": err.Error(),
 		})
 	}
 
-	todolist, err := controller.Service.GetById(todolistId)
+	todo, err := controller.Service.GetById(todoId)
 
 	if err != nil {
 		return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{
@@ -41,27 +41,28 @@ func (controller TodoControllerImpl) GetById(ctx *fiber.Ctx) error {
 		})
 	}
 
-	return ctx.JSON(todolist)
+	return ctx.JSON(todo)
 }
 
 func (controller TodoControllerImpl) Create(ctx *fiber.Ctx) error {
-	createTodolistPayload := new(validator.CreateTodolistPayload)
+	todoPayload := new(validator.TodoPayload)
 
 	// TODO: Error Handling with GoFiber
-	if err := ctx.BodyParser(createTodolistPayload); err != nil {
+	if err := ctx.BodyParser(todoPayload); err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": err.Error(),
 		})
 	}
 
-	validationErr := validator.ValidateCreateTodoPayload(createTodolistPayload)
+	validationErr := validator.ValidateCreateTodoPayload(todoPayload)
 	// TODO: Error Handling with GoFiber
 	if validationErr != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(validationErr)
 	}
 
 	// TODO: Error Handling with GoFiber
-	if ok := controller.Service.Create(model.Todolist{Task: createTodolistPayload.Task}); ok != nil {
+	// TODO: Add UserId to TodoPayload
+	if ok := controller.Service.Create(model.Todo{Title: todoPayload.Title}); ok != nil {
 		return ctx.Status(fiber.StatusUnprocessableEntity).JSON(fiber.Map{
 			"message": ok,
 		})
@@ -73,25 +74,31 @@ func (controller TodoControllerImpl) Create(ctx *fiber.Ctx) error {
 }
 
 func (controller TodoControllerImpl) Update(ctx *fiber.Ctx) error {
-	todolistId, err := strconv.Atoi(ctx.Params("todoId"))
+	todoId, err := strconv.Atoi(ctx.Params("todoId"))
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": err.Error(),
 		})
 	}
 
-	updateTodolistPayload := new(validator.UpdateTodolistPayload)
+	todoPayload := new(validator.TodoPayload)
 
 	// TODO: Error Handling with GoFiber
-	if err := ctx.BodyParser(updateTodolistPayload); err != nil {
+	if err := ctx.BodyParser(todoPayload); err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": err.Error(),
 		})
 	}
 
+	validationErr := validator.ValidateUpdateTodoPayload(todoPayload)
+	// TODO: Error Handling with GoFiber
+	if validationErr != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(validationErr)
+	}
+
 	// TODO: Refactor this
-	todolistModel := model.Todolist{Task: updateTodolistPayload.Task}
-	if err := controller.Service.Update(todolistId, todolistModel); err != nil {
+	todo := model.Todo{Title: todoPayload.Title}
+	if err := controller.Service.Update(todoId, todo); err != nil {
 		return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"message": err.Error(),
 		})
