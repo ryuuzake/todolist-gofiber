@@ -2,7 +2,7 @@ package controller
 
 import "github.com/gofiber/fiber/v2"
 
-type TodolistController interface {
+type TodoController interface {
 	GetAll(ctx *fiber.Ctx) error
 	GetById(ctx *fiber.Ctx) error
 	Create(ctx *fiber.Ctx) error

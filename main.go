@@ -31,8 +31,8 @@ func main() {
 		},
 	})
 
-	domain.Todolist(app, &controller.TodolistControllerImpl{
-		Service: &service.TodolistServiceImpl{
+	domain.Todo(app, &controller.TodoControllerImpl{
+		Service: &service.TodoServiceImpl{
 			Repository: &repository.TodolistRepositoryInMemoryImpl{
 				Todolists: make([]model.Todolist, 0),
 			},

@@ -2,7 +2,7 @@ package service
 
 import "github.com/ryuuzake/todolist-gofiber/model"
 
-type TodolistService interface {
+type TodoService interface {
 	GetAll() ([]model.Todolist, error)
 	GetById(id int) (model.Todolist, error)
 	Create(todolist model.Todolist) error

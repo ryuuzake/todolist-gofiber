@@ -9,11 +9,11 @@ import (
 	"github.com/ryuuzake/todolist-gofiber/validator"
 )
 
-type TodolistControllerImpl struct {
-	Service service.TodolistService
+type TodoControllerImpl struct {
+	Service service.TodoService
 }
 
-func (controller TodolistControllerImpl) GetAll(ctx *fiber.Ctx) error {
+func (controller TodoControllerImpl) GetAll(ctx *fiber.Ctx) error {
 	todolists, err := controller.Service.GetAll()
 
 	if err != nil {
@@ -25,7 +25,7 @@ func (controller TodolistControllerImpl) GetAll(ctx *fiber.Ctx) error {
 	return ctx.JSON(todolists)
 }
 
-func (controller TodolistControllerImpl) GetById(ctx *fiber.Ctx) error {
+func (controller TodoControllerImpl) GetById(ctx *fiber.Ctx) error {
 	todolistId, err := strconv.Atoi(ctx.Params("todolistId"))
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -44,7 +44,7 @@ func (controller TodolistControllerImpl) GetById(ctx *fiber.Ctx) error {
 	return ctx.JSON(todolist)
 }
 
-func (controller TodolistControllerImpl) Create(ctx *fiber.Ctx) error {
+func (controller TodoControllerImpl) Create(ctx *fiber.Ctx) error {
 	createTodolistPayload := new(validator.CreateTodolistPayload)
 
 	// TODO: Error Handling with GoFiber
@@ -54,7 +54,7 @@ func (controller TodolistControllerImpl) Create(ctx *fiber.Ctx) error {
 		})
 	}
 
-	validationErr := validator.ValidateCreateTodolistPayload(createTodolistPayload)
+	validationErr := validator.ValidateCreateTodoPayload(createTodolistPayload)
 	// TODO: Error Handling with GoFiber
 	if validationErr != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(validationErr)
@@ -72,8 +72,8 @@ func (controller TodolistControllerImpl) Create(ctx *fiber.Ctx) error {
 	})
 }
 
-func (controller TodolistControllerImpl) Update(ctx *fiber.Ctx) error {
-	todolistId, err := strconv.Atoi(ctx.Params("todolistId"))
+func (controller TodoControllerImpl) Update(ctx *fiber.Ctx) error {
+	todolistId, err := strconv.Atoi(ctx.Params("todoId"))
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": err.Error(),
@@ -102,8 +102,8 @@ func (controller TodolistControllerImpl) Update(ctx *fiber.Ctx) error {
 	})
 }
 
-func (controller TodolistControllerImpl) Delete(ctx *fiber.Ctx) error {
-	todolistId, err := strconv.Atoi(ctx.Params("todolistId"))
+func (controller TodoControllerImpl) Delete(ctx *fiber.Ctx) error {
+	todolistId, err := strconv.Atoi(ctx.Params("todoId"))
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": err.Error(),
@@ -119,10 +119,10 @@ func (controller TodolistControllerImpl) Delete(ctx *fiber.Ctx) error {
 	return ctx.SendStatus(fiber.StatusNoContent)
 }
 
-func (controller TodolistControllerImpl) UploadPhoto(ctx *fiber.Ctx) error {
+func (controller TodoControllerImpl) UploadPhoto(ctx *fiber.Ctx) error {
 	panic("not implemented") // TODO: Implement
 }
 
-func (controller TodolistControllerImpl) UpdatePhoto(ctx *fiber.Ctx) error {
+func (controller TodoControllerImpl) UpdatePhoto(ctx *fiber.Ctx) error {
 	panic("not implemented") // TODO: Implement
 }
