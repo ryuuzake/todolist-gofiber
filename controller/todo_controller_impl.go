@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"github.com/ryuuzake/todolist-gofiber/helper"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -60,9 +61,11 @@ func (controller TodoControllerImpl) Create(ctx *fiber.Ctx) error {
 		return ctx.Status(fiber.StatusBadRequest).JSON(validationErr)
 	}
 
+	// TODO: This assume user can only create todo for themself, ask if need to be otherwise
+	userClaim := helper.DecodeJWT(ctx)
+	todo := model.Todo{UserId: userClaim.UserId, Title: todoPayload.Title}
 	// TODO: Error Handling with GoFiber
-	// TODO: Add UserId to TodoPayload
-	if ok := controller.Service.Create(model.Todo{Title: todoPayload.Title}); ok != nil {
+	if ok := controller.Service.Create(todo); ok != nil {
 		return ctx.Status(fiber.StatusUnprocessableEntity).JSON(fiber.Map{
 			"message": ok,
 		})

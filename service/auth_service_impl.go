@@ -2,12 +2,10 @@ package service
 
 import (
 	"errors"
-	"strings"
-	"time"
-
-	"github.com/golang-jwt/jwt/v4"
+	"github.com/ryuuzake/todolist-gofiber/helper"
 	"github.com/ryuuzake/todolist-gofiber/model"
 	"github.com/ryuuzake/todolist-gofiber/repository"
+	"strings"
 )
 
 type AuthServiceImpl struct {
@@ -46,25 +44,5 @@ func (service *AuthServiceImpl) LoginUser(email string, password string) (string
 		return "", errors.New("user creds failed")
 	}
 
-	return service.generateJWTToken(user)
-}
-
-func (service *AuthServiceImpl) generateJWTToken(user model.User) (string, error) {
-	// Create token
-	token := jwt.New(jwt.SigningMethodHS256)
-
-	// Set Claims
-	claims := token.Claims.(jwt.MapClaims)
-	claims["sub"] = user.Id
-	claims["name"] = user.FullName
-
-	// Claim for role
-	claims["role"] = user.Role.Name
-
-	// TODO: Make Expire Time more readable
-	claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
-
-	// Generate encoded token and send it as response.
-	// TODO: Random Generated Key same as in auth_middleware.go
-	return token.SignedString([]byte("secret"))
+	return helper.EncodeJWT(user)
 }
