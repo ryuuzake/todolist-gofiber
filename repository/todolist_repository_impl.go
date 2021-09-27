@@ -30,12 +30,11 @@ func (repo *TodolistRepositoryInMemoryImpl) Create(todolist model.Todolist) erro
 	return nil
 }
 
-func (repo *TodolistRepositoryInMemoryImpl) UpdateById(id int, todolist model.Todolist) error {
-	// TODO: Repair Update to Array
+func (repo *TodolistRepositoryInMemoryImpl) UpdateById(id int, newTodolist model.Todolist) error {
 	for i, todolist := range repo.Todolists {
 		if todolist.Id == id {
 			p := &repo.Todolists[i]
-			(*p) = todolist
+			*p = newTodolist
 			return nil
 		}
 	}
