@@ -3,9 +3,12 @@ package service
 import "github.com/ryuuzake/todolist-gofiber/model"
 
 type TodoService interface {
-	GetAll() ([]model.Todo, error)
-	GetById(id int) (model.Todo, error)
-	Create(todo model.Todo) error
-	Update(id int, todo model.Todo) error
-	Delete(id int) error
+	GetAllTodo() ([]model.Todo, error)
+	GetTodoById(id int) (model.Todo, error)
+	CreateTodo(todo model.Todo) error
+	UpdateTodo(id int, todo model.Todo) error
+	DeleteTodo(id int) error
+	CreateTodolistWithTodoId(id int, todolist model.Todolist) error
+	CreateAttachmentWithTodolistId(id int, attachment model.Attachment) error
+	UpdateAttachmentWithId(id int, attachment model.Attachment) error
 }

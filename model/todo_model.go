@@ -12,6 +12,8 @@ type Todo struct {
 
 type Todolist struct {
 	Id        int
+	TodoId    int
+	StatusId  int
 	Task      string
 	CreatedAt time.Time
 	UpdatedAt time.Time

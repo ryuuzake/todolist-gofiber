@@ -38,11 +38,14 @@ func main() {
 
 	domain.Todo(app, &controller.TodoControllerImpl{
 		Service: &service.TodoServiceImpl{
-			Repository: &repository.TodolistRepositoryInMemoryImpl{
+			TodolistRepository: &repository.TodolistRepositoryInMemoryImpl{
 				Todolists: make([]model.Todolist, 0),
 			},
 			TodoRepository: &repository.TodoRepositoryInMemoryImpl{
 				Todos: make([]model.Todo, 0),
+			},
+			AttachmentRepository: &repository.AttachmentRepositoryInMemoryImpl{
+				Attachments: make([]model.Attachment, 0),
 			},
 		},
 	})
