@@ -12,6 +12,8 @@ func TodoRouter(app *fiber.App, controller controller.TodoController) {
 	app.Post("/todos", middleware.Authenticated(), controller.Create)
 	app.Patch("/todos/:todoId", middleware.Authenticated(), controller.Update)
 	app.Delete("/todos/:todoId", middleware.Authenticated(), controller.Delete)
-	app.Post("/todos/:todoId/photos", middleware.Authenticated(), controller.UploadPhoto)
-	app.Patch("/todos/:todoId/photos/:photoId", middleware.Authenticated(), controller.UpdatePhoto)
+	app.Post("/todos/:todoId/todolists", middleware.Authenticated(), controller.CreateTodolist)
+	app.Patch("/todos/:todoId/todolists/:todolistId", middleware.Authenticated(), controller.UpdateTodolist)
+	app.Post("/todos/:todoId/todolists/:todolistId/photos", middleware.Authenticated(), controller.UploadPhoto)
+	app.Patch("/todos/:todoId/todolists/:todolistId/photos/:photoId", middleware.Authenticated(), controller.UpdatePhoto)
 }

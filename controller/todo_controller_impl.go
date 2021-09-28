@@ -113,20 +113,100 @@ func (controller TodoControllerImpl) Update(ctx *fiber.Ctx) error {
 }
 
 func (controller TodoControllerImpl) Delete(ctx *fiber.Ctx) error {
-	todolistId, err := strconv.Atoi(ctx.Params("todoId"))
+	todoId, err := strconv.Atoi(ctx.Params("todoId"))
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": err.Error(),
 		})
 	}
 
-	if err := controller.Service.DeleteTodo(todolistId); err != nil {
+	if err := controller.Service.DeleteTodo(todoId); err != nil {
 		return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"message": err.Error(),
 		})
 	}
 
 	return ctx.SendStatus(fiber.StatusNoContent)
+}
+
+func (controller TodoControllerImpl) CreateTodolist(ctx *fiber.Ctx) error {
+	todoId, err := strconv.Atoi(ctx.Params("todoId"))
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	todolistPayload := new(validator.TodolistPayload)
+
+	// TODO: Error Handling with GoFiber
+	if err := ctx.BodyParser(todolistPayload); err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	validationErr := validator.ValidateCreateTodolistPayload(todolistPayload)
+	// TODO: Error Handling with GoFiber
+	if validationErr != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(validationErr)
+	}
+
+	todolist := model.Todolist{Task: todolistPayload.Task, StatusId: todolistPayload.StatusId}
+	// TODO: Error Handling with GoFiber
+	if ok := controller.Service.CreateTodolistWithTodoId(todoId, todolist); ok != nil {
+		return ctx.Status(fiber.StatusUnprocessableEntity).JSON(fiber.Map{
+			"message": ok,
+		})
+	}
+
+	return ctx.JSON(fiber.Map{
+		"message": "success",
+	})
+}
+
+func (controller TodoControllerImpl) UpdateTodolist(ctx *fiber.Ctx) error {
+	_, err := strconv.Atoi(ctx.Params("todoId"))
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	todolistId, err := strconv.Atoi(ctx.Params("todolistId"))
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	todolistPayload := new(validator.TodolistPayload)
+
+	// TODO: Error Handling with GoFiber
+	if err := ctx.BodyParser(todolistPayload); err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	validationErr := validator.ValidateUpdateTodolistPayload(todolistPayload)
+	// TODO: Error Handling with GoFiber
+	if validationErr != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(validationErr)
+	}
+
+	// TODO: Refactor this
+	todolist := model.Todolist{Task: todolistPayload.Task, StatusId: todolistPayload.StatusId}
+	// TODO: Change Naming of UpdateTodolistWithTodoId
+	if err := controller.Service.UpdateTodolistWithTodoId(todolistId, todolist); err != nil {
+		return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	return ctx.JSON(fiber.Map{
+		"message": "success",
+	})
 }
 
 func (controller TodoControllerImpl) UploadPhoto(ctx *fiber.Ctx) error {

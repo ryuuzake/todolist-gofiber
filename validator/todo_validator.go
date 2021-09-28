@@ -12,6 +12,11 @@ type TodoPayload struct {
 	Title string `json:"title" xml:"title" form:"title" validate:"required"`
 }
 
+type TodolistPayload struct {
+	Task     string `json:"task" validate:"required"`
+	StatusId int    `json:"status_id"`
+}
+
 func ValidateCreateTodoPayload(payload *TodoPayload) []*ErrorResponse {
 	errors := ValidateStruct(*payload)
 
@@ -19,6 +24,18 @@ func ValidateCreateTodoPayload(payload *TodoPayload) []*ErrorResponse {
 }
 
 func ValidateUpdateTodoPayload(payload *TodoPayload) []*ErrorResponse {
+	errors := ValidateStruct(*payload)
+
+	return errors
+}
+
+func ValidateCreateTodolistPayload(payload *TodolistPayload) []*ErrorResponse {
+	errors := ValidateStruct(*payload)
+
+	return errors
+}
+
+func ValidateUpdateTodolistPayload(payload *TodolistPayload) []*ErrorResponse {
 	errors := ValidateStruct(*payload)
 
 	return errors

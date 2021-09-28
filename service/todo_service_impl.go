@@ -66,6 +66,14 @@ func (service TodoServiceImpl) CreateTodolistWithTodoId(id int, todolist model.T
 	return nil
 }
 
+func (service TodoServiceImpl) UpdateTodolistWithTodoId(id int, todolist model.Todolist) error {
+	if err := service.TodolistRepository.UpdateById(id, todolist); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (service TodoServiceImpl) CreateAttachmentWithTodolistId(id int, attachment model.Attachment) error {
 	// TODO: Default value place in service or repository
 	attachment.TodolistId = id

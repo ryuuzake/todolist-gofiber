@@ -8,6 +8,8 @@ type TodoController interface {
 	Create(ctx *fiber.Ctx) error
 	Update(ctx *fiber.Ctx) error
 	Delete(ctx *fiber.Ctx) error
+	CreateTodolist(ctx *fiber.Ctx) error
+	UpdateTodolist(ctx *fiber.Ctx) error
 	UploadPhoto(ctx *fiber.Ctx) error
 	UpdatePhoto(ctx *fiber.Ctx) error
 }
