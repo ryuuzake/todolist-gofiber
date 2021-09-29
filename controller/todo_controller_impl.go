@@ -1,8 +1,9 @@
 package controller
 
 import (
-	"github.com/ryuuzake/todolist-gofiber/helper"
 	"strconv"
+
+	"github.com/ryuuzake/todolist-gofiber/helper"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/ryuuzake/todolist-gofiber/model"
@@ -129,10 +130,42 @@ func (controller TodoControllerImpl) Delete(ctx *fiber.Ctx) error {
 	return ctx.SendStatus(fiber.StatusNoContent)
 }
 
-func (controller TodoControllerImpl) UploadPhoto(ctx *fiber.Ctx) error {
+func (controller TodoControllerImpl) GetAllTodolist(ctx *fiber.Ctx) error {
+	panic("not implemented") // TODO: Implement
+}
+
+func (controller TodoControllerImpl) GetByIdTodolist(ctx *fiber.Ctx) error {
+	panic("not implemented") // TODO: Implement
+}
+
+func (controller TodoControllerImpl) CreateTodolist(ctx *fiber.Ctx) error {
+	panic("not implemented") // TODO: Implement
+}
+
+func (controller TodoControllerImpl) UpdateTodolist(ctx *fiber.Ctx) error {
+	panic("not implemented") // TODO: Implement
+}
+
+func (controller TodoControllerImpl) DeleteTodolist(ctx *fiber.Ctx) error {
+	panic("not implemented") // TODO: Implement
+}
+
+func (controller TodoControllerImpl) GetAllPhoto(ctx *fiber.Ctx) error {
+	panic("not implemented") // TODO: Implement
+}
+
+func (controller TodoControllerImpl) GetByIdPhoto(ctx *fiber.Ctx) error {
+	panic("not implemented") // TODO: Implement
+}
+
+func (controller TodoControllerImpl) CreatePhoto(ctx *fiber.Ctx) error {
 	panic("not implemented") // TODO: Implement
 }
 
 func (controller TodoControllerImpl) UpdatePhoto(ctx *fiber.Ctx) error {
+	panic("not implemented") // TODO: Implement
+}
+
+func (controller TodoControllerImpl) DeletePhoto(ctx *fiber.Ctx) error {
 	panic("not implemented") // TODO: Implement
 }
