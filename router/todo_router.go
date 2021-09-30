@@ -6,25 +6,30 @@ import (
 	"github.com/ryuuzake/todolist-gofiber/middleware"
 )
 
-func TodoRouter(app *fiber.App, controller controller.TodoController) {
+func TodoRouter(
+	app *fiber.App,
+	todoController controller.TodoController,
+	todolistController controller.TodolistController,
+	attachmentController controller.AttachmentController,
+) {
 	todoRoute := app.Group("/todos", middleware.Authenticated())
-	todoRoute.Get("", controller.GetAll)
-	todoRoute.Get("/:todoId", controller.GetById)
-	todoRoute.Post("", controller.Create)
-	todoRoute.Patch("/:todoId", controller.Update)
-	todoRoute.Delete("/:todoId", controller.Delete)
+	todoRoute.Get("", todoController.GetAll)
+	todoRoute.Get("/:todoId", todoController.GetById)
+	todoRoute.Post("", todoController.Create)
+	todoRoute.Patch("/:todoId", todoController.Update)
+	todoRoute.Delete("/:todoId", todoController.Delete)
 
 	todolistRoute := todoRoute.Group("/:todoId/todolists")
-	todolistRoute.Get("", controller.GetAllTodolist)
-	todolistRoute.Get("/:todolistId", controller.GetByIdTodolist)
-	todolistRoute.Post("", controller.CreateTodolist)
-	todolistRoute.Patch("/:todolistId", controller.UpdateTodolist)
-	todolistRoute.Delete("/:todolistId", controller.DeleteTodolist)
+	todolistRoute.Get("", todolistController.GetAllTodolist)
+	todolistRoute.Get("/:todolistId", todolistController.GetByIdTodolist)
+	todolistRoute.Post("", todolistController.CreateTodolist)
+	todolistRoute.Patch("/:todolistId", todolistController.UpdateTodolist)
+	todolistRoute.Delete("/:todolistId", todolistController.DeleteTodolist)
 
 	photoRoute := todolistRoute.Group("/:todolistId/photos")
-	photoRoute.Get("", controller.GetAllPhoto)
-	photoRoute.Get("/:photoId", controller.GetByIdPhoto)
-	photoRoute.Post("", controller.CreatePhoto)
-	photoRoute.Patch("/:photoId", controller.UpdatePhoto)
-	photoRoute.Delete("/:photoId", controller.DeletePhoto)
+	photoRoute.Get("", attachmentController.GetAllAttachment)
+	photoRoute.Get("/:photoId", attachmentController.GetByIdAttachment)
+	photoRoute.Post("", attachmentController.CreateAttachment)
+	photoRoute.Patch("/:photoId", attachmentController.UpdateAttachment)
+	photoRoute.Delete("/:photoId", attachmentController.DeleteAttachment)
 }
