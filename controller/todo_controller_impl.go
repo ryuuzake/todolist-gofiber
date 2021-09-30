@@ -1,8 +1,9 @@
 package controller
 
 import (
-	"github.com/ryuuzake/todolist-gofiber/helper"
 	"strconv"
+
+	"github.com/ryuuzake/todolist-gofiber/helper"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/ryuuzake/todolist-gofiber/model"
@@ -113,14 +114,14 @@ func (controller TodoControllerImpl) Update(ctx *fiber.Ctx) error {
 }
 
 func (controller TodoControllerImpl) Delete(ctx *fiber.Ctx) error {
-	todoId, err := strconv.Atoi(ctx.Params("todoId"))
+	todolistId, err := strconv.Atoi(ctx.Params("todoId"))
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": err.Error(),
 		})
 	}
 
-	if err := controller.Service.DeleteTodo(todoId); err != nil {
+	if err := controller.Service.DeleteTodo(todolistId); err != nil {
 		return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"message": err.Error(),
 		})
@@ -129,90 +130,42 @@ func (controller TodoControllerImpl) Delete(ctx *fiber.Ctx) error {
 	return ctx.SendStatus(fiber.StatusNoContent)
 }
 
+func (controller TodoControllerImpl) GetAllTodolist(ctx *fiber.Ctx) error {
+	panic("not implemented") // TODO: Implement
+}
+
+func (controller TodoControllerImpl) GetByIdTodolist(ctx *fiber.Ctx) error {
+	panic("not implemented") // TODO: Implement
+}
+
 func (controller TodoControllerImpl) CreateTodolist(ctx *fiber.Ctx) error {
-	todoId, err := strconv.Atoi(ctx.Params("todoId"))
-	if err != nil {
-		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": err.Error(),
-		})
-	}
-
-	todolistPayload := new(validator.TodolistPayload)
-
-	// TODO: Error Handling with GoFiber
-	if err := ctx.BodyParser(todolistPayload); err != nil {
-		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": err.Error(),
-		})
-	}
-
-	validationErr := validator.ValidateCreateTodolistPayload(todolistPayload)
-	// TODO: Error Handling with GoFiber
-	if validationErr != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(validationErr)
-	}
-
-	todolist := model.Todolist{Task: todolistPayload.Task, StatusId: todolistPayload.StatusId}
-	// TODO: Error Handling with GoFiber
-	if ok := controller.Service.CreateTodolistWithTodoId(todoId, todolist); ok != nil {
-		return ctx.Status(fiber.StatusUnprocessableEntity).JSON(fiber.Map{
-			"message": ok,
-		})
-	}
-
-	return ctx.JSON(fiber.Map{
-		"message": "success",
-	})
+	panic("not implemented") // TODO: Implement
 }
 
 func (controller TodoControllerImpl) UpdateTodolist(ctx *fiber.Ctx) error {
-	_, err := strconv.Atoi(ctx.Params("todoId"))
-	if err != nil {
-		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": err.Error(),
-		})
-	}
-
-	todolistId, err := strconv.Atoi(ctx.Params("todolistId"))
-	if err != nil {
-		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": err.Error(),
-		})
-	}
-
-	todolistPayload := new(validator.TodolistPayload)
-
-	// TODO: Error Handling with GoFiber
-	if err := ctx.BodyParser(todolistPayload); err != nil {
-		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": err.Error(),
-		})
-	}
-
-	validationErr := validator.ValidateUpdateTodolistPayload(todolistPayload)
-	// TODO: Error Handling with GoFiber
-	if validationErr != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(validationErr)
-	}
-
-	// TODO: Refactor this
-	todolist := model.Todolist{Task: todolistPayload.Task, StatusId: todolistPayload.StatusId}
-	// TODO: Change Naming of UpdateTodolistWithTodoId
-	if err := controller.Service.UpdateTodolistWithTodoId(todolistId, todolist); err != nil {
-		return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{
-			"message": err.Error(),
-		})
-	}
-
-	return ctx.JSON(fiber.Map{
-		"message": "success",
-	})
+	panic("not implemented") // TODO: Implement
 }
 
-func (controller TodoControllerImpl) UploadPhoto(ctx *fiber.Ctx) error {
+func (controller TodoControllerImpl) DeleteTodolist(ctx *fiber.Ctx) error {
+	panic("not implemented") // TODO: Implement
+}
+
+func (controller TodoControllerImpl) GetAllPhoto(ctx *fiber.Ctx) error {
+	panic("not implemented") // TODO: Implement
+}
+
+func (controller TodoControllerImpl) GetByIdPhoto(ctx *fiber.Ctx) error {
+	panic("not implemented") // TODO: Implement
+}
+
+func (controller TodoControllerImpl) CreatePhoto(ctx *fiber.Ctx) error {
 	panic("not implemented") // TODO: Implement
 }
 
 func (controller TodoControllerImpl) UpdatePhoto(ctx *fiber.Ctx) error {
+	panic("not implemented") // TODO: Implement
+}
+
+func (controller TodoControllerImpl) DeletePhoto(ctx *fiber.Ctx) error {
 	panic("not implemented") // TODO: Implement
 }

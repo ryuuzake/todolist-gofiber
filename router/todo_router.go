@@ -7,13 +7,24 @@ import (
 )
 
 func TodoRouter(app *fiber.App, controller controller.TodoController) {
-	app.Get("/todos", middleware.Authenticated(), controller.GetAll)
-	app.Get("/todos/:todoId", middleware.Authenticated(), controller.GetById)
-	app.Post("/todos", middleware.Authenticated(), controller.Create)
-	app.Patch("/todos/:todoId", middleware.Authenticated(), controller.Update)
-	app.Delete("/todos/:todoId", middleware.Authenticated(), controller.Delete)
-	app.Post("/todos/:todoId/todolists", middleware.Authenticated(), controller.CreateTodolist)
-	app.Patch("/todos/:todoId/todolists/:todolistId", middleware.Authenticated(), controller.UpdateTodolist)
-	app.Post("/todos/:todoId/todolists/:todolistId/photos", middleware.Authenticated(), controller.UploadPhoto)
-	app.Patch("/todos/:todoId/todolists/:todolistId/photos/:photoId", middleware.Authenticated(), controller.UpdatePhoto)
+	todoRoute := app.Group("/todos", middleware.Authenticated())
+	todoRoute.Get("", controller.GetAll)
+	todoRoute.Get("/:todoId", controller.GetById)
+	todoRoute.Post("", controller.Create)
+	todoRoute.Patch("/:todoId", controller.Update)
+	todoRoute.Delete("/:todoId", controller.Delete)
+
+	todolistRoute := todoRoute.Group("/:todoId/todolists")
+	todolistRoute.Get("", controller.GetAllTodolist)
+	todolistRoute.Get("/:todolistId", controller.GetByIdTodolist)
+	todolistRoute.Post("", controller.CreateTodolist)
+	todolistRoute.Patch("/:todolistId", controller.UpdateTodolist)
+	todolistRoute.Delete("/:todolistId", controller.DeleteTodolist)
+
+	photoRoute := todolistRoute.Group("/:todolistId/photos")
+	photoRoute.Get("", controller.GetAllPhoto)
+	photoRoute.Get("/:photoId", controller.GetByIdPhoto)
+	photoRoute.Post("", controller.CreatePhoto)
+	photoRoute.Patch("/:photoId", controller.UpdatePhoto)
+	photoRoute.Delete("/:photoId", controller.DeletePhoto)
 }
