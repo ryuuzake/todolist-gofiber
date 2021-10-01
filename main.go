@@ -36,19 +36,30 @@ func main() {
 		},
 	})
 
-	domain.Todo(app, &controller.TodoControllerImpl{
-		Service: &service.TodoServiceImpl{
-			TodolistRepository: &repository.TodolistRepositoryInMemoryImpl{
-				Todolists: make([]model.Todolist, 0),
-			},
-			TodoRepository: &repository.TodoRepositoryInMemoryImpl{
-				Todos: make([]model.Todo, 0),
-			},
-			AttachmentRepository: &repository.AttachmentRepositoryInMemoryImpl{
-				Attachments: make([]model.Attachment, 0),
+	domain.Todo(
+		app,
+		&controller.TodoControllerImpl{
+			Service: &service.TodoServiceImpl{
+				Repository: &repository.TodoRepositoryInMemoryImpl{
+					Todos: make([]model.Todo, 0),
+				},
 			},
 		},
-	})
+		&controller.TodolistControllerImpl{
+			Service: &service.TodolistServiceImpl{
+				Repository: &repository.TodolistRepositoryInMemoryImpl{
+					Todolists: make([]model.Todolist, 0),
+				},
+			},
+		},
+		&controller.AttachmentControllerImpl{
+			Service: &service.AttachmentServiceImpl{
+				Repository: &repository.AttachmentRepositoryInMemoryImpl{
+					Attachments: make([]model.Attachment, 0),
+				},
+			},
+		},
+	)
 
 	domain.Auth(app, &controller.AuthControllerImpl{
 		Service: &service.AuthServiceImpl{

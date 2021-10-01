@@ -6,6 +6,16 @@ import (
 	"github.com/ryuuzake/todolist-gofiber/router"
 )
 
-func Todo(app *fiber.App, controller controller.TodoController) {
-	router.TodoRouter(app, controller)
+func Todo(
+	app *fiber.App,
+	todoController controller.TodoController,
+	todolistController controller.TodolistController,
+	attachmentController controller.AttachmentController,
+) {
+	router.TodoRouter(
+		app,
+		todoController,
+		todolistController,
+		attachmentController,
+	)
 }
