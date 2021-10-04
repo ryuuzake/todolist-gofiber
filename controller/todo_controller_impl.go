@@ -114,14 +114,14 @@ func (controller TodoControllerImpl) Update(ctx *fiber.Ctx) error {
 }
 
 func (controller TodoControllerImpl) Delete(ctx *fiber.Ctx) error {
-	todolistId, err := strconv.Atoi(ctx.Params("todoId"))
+	todoId, err := strconv.Atoi(ctx.Params("todoId"))
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": err.Error(),
 		})
 	}
 
-	if err := controller.Service.DeleteTodo(todolistId); err != nil {
+	if err := controller.Service.DeleteTodo(todoId); err != nil {
 		return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"message": err.Error(),
 		})
