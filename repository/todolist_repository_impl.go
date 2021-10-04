@@ -14,6 +14,17 @@ func (repo *TodolistRepositoryInMemoryImpl) FindAll() ([]model.Todolist, error) 
 	return repo.Todolists, nil
 }
 
+func (repo *TodolistRepositoryInMemoryImpl) FindAllWithTodoId(id int) ([]model.Todolist, error) {
+	todolists := make([]model.Todolist, 0)
+	for _, todolist := range repo.Todolists {
+		if todolist.TodoId == id {
+			todolists = append(todolists, todolist)
+		}
+	}
+
+	return todolists, nil
+}
+
 func (repo *TodolistRepositoryInMemoryImpl) FindById(id int) (model.Todolist, error) {
 	for _, todolist := range repo.Todolists {
 		if todolist.Id == id {

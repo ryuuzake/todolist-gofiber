@@ -10,11 +10,23 @@ type TodolistServiceImpl struct {
 }
 
 func (service TodolistServiceImpl) GetAllTodolistWithTodoId(id int) ([]model.Todolist, error) {
-	panic("implement me")
+	todolists, err := service.Repository.FindAllWithTodoId(id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return todolists, nil
 }
 
 func (service TodolistServiceImpl) GetTodolistById(id int) (model.Todolist, error) {
-	panic("implement me")
+	todolist, err := service.Repository.FindById(id)
+
+	if err != nil {
+		return model.Todolist{}, err
+	}
+
+	return todolist, nil
 }
 
 func (service TodolistServiceImpl) CreateTodolistWithTodoId(id int, todolist model.Todolist) error {
@@ -36,5 +48,9 @@ func (service TodolistServiceImpl) UpdateTodolistById(id int, todolist model.Tod
 }
 
 func (service TodolistServiceImpl) DeleteTodolistById(id int) error {
-	panic("implement me")
+	if err := service.Repository.DeleteById(id); err != nil {
+		return err
+	}
+
+	return nil
 }
