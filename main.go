@@ -53,11 +53,12 @@ func main() {
 			},
 		},
 		&controller.AttachmentControllerImpl{
-			Service: &service.AttachmentServiceImpl{
+			AttachmentService: &service.AttachmentServiceImpl{
 				Repository: &repository.AttachmentRepositoryInMemoryImpl{
 					Attachments: make([]model.Attachment, 0),
 				},
 			},
+			FileUploadService: &service.FileUploadServiceImpl{},
 		},
 	)
 

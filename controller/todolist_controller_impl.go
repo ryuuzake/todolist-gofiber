@@ -15,12 +15,12 @@ type TodolistControllerImpl struct {
 func (controller *TodolistControllerImpl) GetAllTodolist(ctx *fiber.Ctx) error {
 	todoId, err := strconv.Atoi(ctx.Params("todoId"))
 	if err != nil {
-		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": err.Error(),
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "id not recognized",
 		})
 	}
 
-	todos, err := controller.Service.GetAllTodolistWithTodoId(todoId)
+	todolists, err := controller.Service.GetAllTodolistWithTodoId(todoId)
 
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -28,7 +28,7 @@ func (controller *TodolistControllerImpl) GetAllTodolist(ctx *fiber.Ctx) error {
 		})
 	}
 
-	return ctx.JSON(todos)
+	return ctx.JSON(todolists)
 }
 
 func (controller *TodolistControllerImpl) GetByIdTodolist(ctx *fiber.Ctx) error {

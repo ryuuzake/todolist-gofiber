@@ -1,6 +1,10 @@
 package service
 
+import (
+	"mime/multipart"
+)
+
 type FileUploadService interface {
-	UploadFile() error
-	RetrieveFile(location string) error
+	UploadFile(file *multipart.FileHeader) (string, error)
+	RetrieveFile(location string) (string, error)
 }

@@ -17,6 +17,10 @@ type TodolistPayload struct {
 	StatusId int    `json:"status_id"`
 }
 
+type AttachmentPayload struct {
+	Caption string `form:"caption" validate:"required"`
+}
+
 func ValidateCreateTodoPayload(payload *TodoPayload) []*ErrorResponse {
 	errors := ValidateStruct(*payload)
 
@@ -36,6 +40,12 @@ func ValidateCreateTodolistPayload(payload *TodolistPayload) []*ErrorResponse {
 }
 
 func ValidateUpdateTodolistPayload(payload *TodolistPayload) []*ErrorResponse {
+	errors := ValidateStruct(*payload)
+
+	return errors
+}
+
+func ValidateCreateAttachmentPayload(payload *AttachmentPayload) []*ErrorResponse {
 	errors := ValidateStruct(*payload)
 
 	return errors
