@@ -11,11 +11,23 @@ type AttachmentServiceImpl struct {
 }
 
 func (service AttachmentServiceImpl) GetAllAttachmentWithTodolistId(id int) ([]model.Attachment, error) {
-	panic("implement me")
+	attachments, err := service.Repository.FindAllFromTodolistId(id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return attachments, nil
 }
 
 func (service AttachmentServiceImpl) GetAttachmentById(id int) (model.Attachment, error) {
-	panic("implement me")
+	attachment, err := service.Repository.FindById(id)
+
+	if err != nil {
+		return model.Attachment{}, err
+	}
+
+	return attachment, nil
 }
 
 func (service AttachmentServiceImpl) CreateAttachmentWithTodolistId(id int, attachment model.Attachment) error {
@@ -42,5 +54,9 @@ func (service AttachmentServiceImpl) UpdateAttachmentById(id int, attachment mod
 }
 
 func (service AttachmentServiceImpl) DeleteAttachmentById(id int) error {
-	panic("implement me")
+	if err := service.Repository.DeleteById(id); err != nil {
+		return err
+	}
+
+	return nil
 }
