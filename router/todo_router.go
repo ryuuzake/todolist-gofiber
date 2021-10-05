@@ -26,10 +26,10 @@ func TodoRouter(
 	todolistRoute.Patch("/:todolistId", todolistController.UpdateTodolist)
 	todolistRoute.Delete("/:todolistId", todolistController.DeleteTodolist)
 
-	photoRoute := todolistRoute.Group("/:todolistId/photos")
-	photoRoute.Get("", attachmentController.GetAllAttachment)
-	photoRoute.Get("/:photoId", attachmentController.GetByIdAttachment)
-	photoRoute.Post("", attachmentController.CreateAttachment)
-	photoRoute.Patch("/:photoId", attachmentController.UpdateAttachment)
-	photoRoute.Delete("/:photoId", attachmentController.DeleteAttachment)
+	attachmentRoute := todolistRoute.Group("/:todolistId/attachments")
+	attachmentRoute.Get("", attachmentController.GetAllAttachment)
+	attachmentRoute.Get("/:attachmentId", attachmentController.GetByIdAttachment)
+	attachmentRoute.Post("", attachmentController.CreateAttachment)
+	attachmentRoute.Patch("/:attachmentId", attachmentController.UpdateAttachment)
+	attachmentRoute.Delete("/:attachmentId", attachmentController.DeleteAttachment)
 }

@@ -77,7 +77,7 @@ func (controller *TodolistControllerImpl) CreateTodolist(ctx *fiber.Ctx) error {
 		})
 	}
 
-	return ctx.JSON(fiber.Map{
+	return ctx.Status(fiber.StatusCreated).JSON(fiber.Map{
 		"message": "success",
 	})
 }
