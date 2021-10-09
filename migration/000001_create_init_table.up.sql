@@ -24,7 +24,7 @@ CREATE TABLE users
     forgot_password VARCHAR(255) NULL,
     role_id         UUID         NOT NULL,
     created_at      TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at      TIMESTAMP NULL,
+    updated_at      TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     CONSTRAINT fk_role_id FOREIGN KEY (role_id) REFERENCES roles (id)
 );
 
@@ -42,7 +42,7 @@ CREATE TABLE todos
     user_id    UUID         NOT NULL,
     title      VARCHAR(255) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
@@ -54,7 +54,7 @@ CREATE TABLE todolists
     task       VARCHAR(255) NOT NULL,
     status_id  UUID         NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     CONSTRAINT fk_todo_id FOREIGN KEY (todo_id) REFERENCES todos (id),
     CONSTRAINT fk_status_id FOREIGN KEY (status_id) REFERENCES status (id)
 );
@@ -67,6 +67,6 @@ CREATE TABLE attachments
     url         VARCHAR(255) NOT NULL,
     caption     VARCHAR(255) NOT NULL,
     created_at  TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at  TIMESTAMP NULL,
+    updated_at  TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     CONSTRAINT fk_todolist_id FOREIGN KEY (todolist_id) REFERENCES todolists (id)
 );
