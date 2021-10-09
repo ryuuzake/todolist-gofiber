@@ -1,7 +1,10 @@
 package repository
 
-import "github.com/ryuuzake/todolist-gofiber/model"
+import (
+	"github.com/gofrs/uuid"
+	"github.com/ryuuzake/todolist-gofiber/model"
+)
 
 type RoleRepository interface {
-	FindById(id int) (model.Role, error)
+	FindById(id uuid.UUID) (model.Role, error)
 }

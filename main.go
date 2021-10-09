@@ -17,18 +17,8 @@ func main() {
 		ErrorHandler: middleware.ErrorHandler,
 	})
 
-	userRepository := &repository.UserRepositoryInMemoryImpl{
-		Users: []model.User{
-			{Id: 1, Email: "admin@example.com", Password: "password", RoleId: 1},
-		},
-	}
-
-	roleRepository := &repository.RoleRepositoryInMemoryImpl{
-		Roles: []model.Role{
-			{Id: 1, Name: "admin", Description: "Admin Role for User"},
-			{Id: 2, Name: "normal", Description: "Normal User"},
-		},
-	}
+	userRepository := repository.NewUserRepositoryPostgresImpl()
+	roleRepository := repository.NewRoleRepositoryPostgresImpl()
 
 	domain.Admin(app, &controller.AdminControllerImpl{
 		Service: &service.AdminServiceImpl{

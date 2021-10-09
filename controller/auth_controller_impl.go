@@ -70,7 +70,7 @@ func (controller *AuthControllerImpl) LoginUser(ctx *fiber.Ctx) error {
 	// TODO: Error Handling with GoFiber
 	if err != nil {
 		return ctx.Status(fiber.StatusUnprocessableEntity).JSON(fiber.Map{
-			"message": err,
+			"message": err.Error(),
 		})
 	}
 
