@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"github.com/ryuuzake/todolist-gofiber/model"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -29,15 +30,17 @@ func (controller *AuthControllerImpl) RegisterUser(ctx *fiber.Ctx) error {
 		return ctx.Status(fiber.StatusBadRequest).JSON(validationErr)
 	}
 
-	ok := controller.Service.RegisterUser(
-		registerUserPayload.Email,
-		registerUserPayload.Password,
-	)
+	user := model.User{
+		FullName: registerUserPayload.FullName,
+		Email:    registerUserPayload.Email,
+		Password: registerUserPayload.Password,
+	}
+	ok := controller.Service.RegisterUser(user)
 
 	// TODO: Error Handling with GoFiber
 	if ok != nil {
 		return ctx.Status(fiber.StatusUnprocessableEntity).JSON(fiber.Map{
-			"message": ok,
+			"message": ok.Error(),
 		})
 	}
 

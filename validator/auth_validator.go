@@ -3,6 +3,7 @@ package validator
 import "strings"
 
 type RegisterUserPayload struct {
+	FullName             string `json:"full_name" xml:"full_name" form:"full_name" validate:"required"`
 	Email                string `json:"email" xml:"email" form:"email" validate:"required,email,min=6,max=32"`
 	Password             string `json:"password" xml:"password" form:"password" validate:"required,min=8,max=32"`
 	PasswordConfirmation string `json:"password_confirmation" xml:"password_confirmation" form:"password_confirmation" validate:"required,min=8,max=32"`

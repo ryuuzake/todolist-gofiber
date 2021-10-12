@@ -39,7 +39,6 @@ func (repo *UserRepositoryPostgresImpl) FindByEmail(email string) (model.User, e
 
 	err := repo.Get(&user, query, email)
 	if err != nil {
-		panic(err.Error())
 		return user, err
 	}
 
@@ -48,7 +47,7 @@ func (repo *UserRepositoryPostgresImpl) FindByEmail(email string) (model.User, e
 
 func (repo *UserRepositoryPostgresImpl) Create(user model.User) error {
 	query := `INSERT INTO users (full_name, email, password, role_id)
-		VALUES(:fullname, :email, :password, :roleid)`
+		VALUES(:full_name, :email, :password, :role_id)`
 
 	_, err := repo.NamedExec(query, user)
 	if err != nil {

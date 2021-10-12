@@ -2,10 +2,10 @@ package service
 
 import (
 	"errors"
+	"github.com/gofrs/uuid"
 	"github.com/ryuuzake/todolist-gofiber/helper"
 	"github.com/ryuuzake/todolist-gofiber/model"
 	"github.com/ryuuzake/todolist-gofiber/repository"
-	"strings"
 )
 
 type AuthServiceImpl struct {
@@ -13,12 +13,21 @@ type AuthServiceImpl struct {
 	RoleRepository repository.RoleRepository
 }
 
-func (service *AuthServiceImpl) RegisterUser(email, password string) error {
-	if _, err := service.UserRepository.FindByEmail(email); err == nil {
+func (service *AuthServiceImpl) RegisterUser(user model.User) error {
+	if _, err := service.UserRepository.FindByEmail(user.Email); err == nil {
 		return errors.New("user already registered")
 	}
 
-	err := service.UserRepository.Create(model.User{Email: email, Password: password})
+	hashPass, err := helper.GenerateHashFromPassword(user.Password)
+	if err != nil {
+		return err
+	}
+	user.Password = hashPass
+
+	// TODO: Get Normal Role
+	user.RoleId, _ = uuid.FromString("7c41a513-7606-42af-81f6-0fa0d0a1676e")
+
+	err = service.UserRepository.Create(user)
 	if err != nil {
 		return err
 	}
@@ -39,8 +48,8 @@ func (service *AuthServiceImpl) LoginUser(email string, password string) (string
 
 	user.Role = role
 
-	// TODO: Check User password hash
-	if strings.Compare(user.Password, password) != 0 {
+	err = helper.CompareHashAndPassword(user.Password, password)
+	if err != nil {
 		return "", errors.New("user creds failed")
 	}
 
