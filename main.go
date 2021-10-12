@@ -22,6 +22,8 @@ func main() {
 	todolistRepository := repository.NewTodolistRepositoryPostgresImpl()
 	attachmentRepository := repository.NewAttachmentRepositoryPostgresImpl()
 
+	fileUploadService := service.FileUploadServiceImpl{}
+
 	domain.Admin(app, &controller.AdminControllerImpl{
 		Service: &service.AdminServiceImpl{
 			Repository: userRepository,
@@ -44,7 +46,7 @@ func main() {
 			AttachmentService: &service.AttachmentServiceImpl{
 				Repository: attachmentRepository,
 			},
-			FileUploadService: &service.FileUploadServiceImpl{},
+			FileUploadService: fileUploadService,
 		},
 	)
 
@@ -53,6 +55,10 @@ func main() {
 			UserRepository: userRepository,
 			RoleRepository: roleRepository,
 		},
+	})
+
+	domain.Storage(app, &controller.StorageControllerImpl{
+		Service: fileUploadService,
 	})
 
 	log.Fatal(app.Listen(config.Config.Address))
