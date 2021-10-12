@@ -2,6 +2,7 @@ package helper
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofrs/uuid"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/ryuuzake/todolist-gofiber/config"
 	"github.com/ryuuzake/todolist-gofiber/model"
@@ -9,7 +10,7 @@ import (
 )
 
 type UserClaim struct {
-	UserId       int
+	UserId       uuid.UUID
 	UserFullName string
 	RoleName     string
 	Expire       time.Time
@@ -19,9 +20,10 @@ func DecodeJWT(ctx *fiber.Ctx) UserClaim {
 	user := ctx.Locals("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
 
-	userIdClaim := 0
+	var userIdClaim uuid.UUID
 	if claims["sub"] != nil {
-		userIdClaim = int(claims["sub"].(float64))
+		// TODO: Handle Error
+		userIdClaim, _ = uuid.FromString(claims["sub"].(string))
 	}
 
 	userNameClaim := ""

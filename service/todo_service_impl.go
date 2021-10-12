@@ -1,6 +1,7 @@
 package service
 
 import (
+	"github.com/gofrs/uuid"
 	"github.com/ryuuzake/todolist-gofiber/model"
 	"github.com/ryuuzake/todolist-gofiber/repository"
 )
@@ -19,7 +20,7 @@ func (service TodoServiceImpl) GetAllTodo() ([]model.Todo, error) {
 	return todos, nil
 }
 
-func (service TodoServiceImpl) GetTodoById(id int) (model.Todo, error) {
+func (service TodoServiceImpl) GetTodoById(id uuid.UUID) (model.Todo, error) {
 	todo, err := service.Repository.FindById(id)
 
 	if err != nil {
@@ -37,7 +38,7 @@ func (service TodoServiceImpl) CreateTodo(todo model.Todo) error {
 	return nil
 }
 
-func (service TodoServiceImpl) UpdateTodo(id int, todo model.Todo) error {
+func (service TodoServiceImpl) UpdateTodo(id uuid.UUID, todo model.Todo) error {
 	if err := service.Repository.UpdateById(id, todo); err != nil {
 		return err
 	}
@@ -45,7 +46,7 @@ func (service TodoServiceImpl) UpdateTodo(id int, todo model.Todo) error {
 	return nil
 }
 
-func (service TodoServiceImpl) DeleteTodo(id int) error {
+func (service TodoServiceImpl) DeleteTodo(id uuid.UUID) error {
 	if err := service.Repository.DeleteById(id); err != nil {
 		return err
 	}

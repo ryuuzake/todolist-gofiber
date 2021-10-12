@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"strconv"
+	"github.com/gofrs/uuid"
 
 	"github.com/ryuuzake/todolist-gofiber/helper"
 
@@ -28,7 +28,7 @@ func (controller TodoControllerImpl) GetAll(ctx *fiber.Ctx) error {
 }
 
 func (controller TodoControllerImpl) GetById(ctx *fiber.Ctx) error {
-	todoId, err := strconv.Atoi(ctx.Params("todoId"))
+	todoId, err := uuid.FromString(ctx.Params("todoId"))
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": err.Error(),
@@ -66,19 +66,19 @@ func (controller TodoControllerImpl) Create(ctx *fiber.Ctx) error {
 	userClaim := helper.DecodeJWT(ctx)
 	todo := model.Todo{UserId: userClaim.UserId, Title: todoPayload.Title}
 	// TODO: Error Handling with GoFiber
-	if ok := controller.Service.CreateTodo(todo); ok != nil {
+	if err := controller.Service.CreateTodo(todo); err != nil {
 		return ctx.Status(fiber.StatusUnprocessableEntity).JSON(fiber.Map{
-			"message": ok,
+			"message": err.Error(),
 		})
 	}
 
-	return ctx.JSON(fiber.Map{
+	return ctx.Status(fiber.StatusCreated).JSON(fiber.Map{
 		"message": "success",
 	})
 }
 
 func (controller TodoControllerImpl) Update(ctx *fiber.Ctx) error {
-	todoId, err := strconv.Atoi(ctx.Params("todoId"))
+	todoId, err := uuid.FromString(ctx.Params("todoId"))
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": err.Error(),
@@ -114,7 +114,7 @@ func (controller TodoControllerImpl) Update(ctx *fiber.Ctx) error {
 }
 
 func (controller TodoControllerImpl) Delete(ctx *fiber.Ctx) error {
-	todoId, err := strconv.Atoi(ctx.Params("todoId"))
+	todoId, err := uuid.FromString(ctx.Params("todoId"))
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": err.Error(),

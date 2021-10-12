@@ -1,13 +1,16 @@
 package model
 
-import "time"
+import (
+	"github.com/gofrs/uuid"
+	"time"
+)
 
 type Todo struct {
-	Id        int
-	UserId    int
-	Title     string
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	Id        uuid.UUID `db:"id" json:"id"`
+	UserId    uuid.UUID `db:"user_id" json:"user_id"`
+	Title     string    `db:"title" json:"title"`
+	CreatedAt time.Time `db:"created_at" json:"created_at"`
+	UpdatedAt time.Time `db:"updated_at" json:"updated_at"`
 }
 
 type Todolist struct {
