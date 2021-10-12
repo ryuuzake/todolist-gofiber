@@ -1,11 +1,14 @@
 package service
 
-import "github.com/ryuuzake/todolist-gofiber/model"
+import (
+	"github.com/gofrs/uuid"
+	"github.com/ryuuzake/todolist-gofiber/model"
+)
 
 type TodolistService interface {
-	GetAllTodolistWithTodoId(id int) ([]model.Todolist, error)
-	GetTodolistById(id int) (model.Todolist, error)
-	CreateTodolistWithTodoId(id int, todolist model.Todolist) error
-	UpdateTodolistById(id int, todolist model.Todolist) error
-	DeleteTodolistById(id int) error
+	GetAllTodolistWithTodoId(id uuid.UUID) ([]model.Todolist, error)
+	GetTodolistById(id uuid.UUID) (model.Todolist, error)
+	CreateTodolistWithTodoId(id uuid.UUID, todolist model.Todolist) error
+	UpdateTodolistById(id uuid.UUID, todolist model.Todolist) error
+	DeleteTodolistById(id uuid.UUID) error
 }

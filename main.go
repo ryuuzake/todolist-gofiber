@@ -20,6 +20,7 @@ func main() {
 	userRepository := repository.NewUserRepositoryPostgresImpl()
 	roleRepository := repository.NewRoleRepositoryPostgresImpl()
 	todoRepository := repository.NewTodoRepositoryPostgresImpl()
+	todolistRepository := repository.NewTodolistRepositoryPostgresImpl()
 
 	domain.Admin(app, &controller.AdminControllerImpl{
 		Service: &service.AdminServiceImpl{
@@ -36,9 +37,7 @@ func main() {
 		},
 		&controller.TodolistControllerImpl{
 			Service: &service.TodolistServiceImpl{
-				Repository: &repository.TodolistRepositoryInMemoryImpl{
-					Todolists: make([]model.Todolist, 0),
-				},
+				Repository: todolistRepository,
 			},
 		},
 		&controller.AttachmentControllerImpl{

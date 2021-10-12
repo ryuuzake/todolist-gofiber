@@ -14,17 +14,17 @@ type Todo struct {
 }
 
 type Todolist struct {
-	Id        int
-	TodoId    int
-	StatusId  int
-	Task      string
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	Id        uuid.UUID `db:"id" json:"id"`
+	TodoId    uuid.UUID `db:"todo_id" json:"todo_id"`
+	StatusId  uuid.UUID `db:"status_id" json:"status_id"`
+	Task      string    `db:"task" json:"task"`
+	CreatedAt time.Time `db:"created_at" json:"created_at"`
+	UpdatedAt time.Time `db:"updated_at" json:"updated_at"`
 }
 
 type Status struct {
-	Id   int
-	Name string
+	Id   uuid.UUID `db:"id" json:"id"`
+	Name string    `db:"name" json:"name"`
 }
 
 type Attachment struct {

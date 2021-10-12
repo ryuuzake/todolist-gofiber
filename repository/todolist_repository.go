@@ -1,12 +1,15 @@
 package repository
 
-import "github.com/ryuuzake/todolist-gofiber/model"
+import (
+	"github.com/gofrs/uuid"
+	"github.com/ryuuzake/todolist-gofiber/model"
+)
 
 type TodolistRepository interface {
 	FindAll() ([]model.Todolist, error)
-	FindAllWithTodoId(id int) ([]model.Todolist, error)
-	FindById(id int) (model.Todolist, error)
+	FindAllWithTodoId(id uuid.UUID) ([]model.Todolist, error)
+	FindById(id uuid.UUID) (model.Todolist, error)
 	Create(model.Todolist) error
-	UpdateById(id int, todolist model.Todolist) error
-	DeleteById(id int) error
+	UpdateById(id uuid.UUID, todolist model.Todolist) error
+	DeleteById(id uuid.UUID) error
 }

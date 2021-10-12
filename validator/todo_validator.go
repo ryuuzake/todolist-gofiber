@@ -1,5 +1,7 @@
 package validator
 
+import "github.com/gofrs/uuid"
+
 type CreateTodolistPayload struct {
 	Task string `json:"task" xml:"task" form:"task" validate:"required"`
 }
@@ -13,8 +15,8 @@ type TodoPayload struct {
 }
 
 type TodolistPayload struct {
-	Task     string `json:"task" validate:"required"`
-	StatusId int    `json:"status_id"`
+	Task     string    `json:"task" validate:"required"`
+	StatusId uuid.UUID `json:"status_id"`
 }
 
 type AttachmentPayload struct {

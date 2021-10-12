@@ -1,6 +1,7 @@
 package service
 
 import (
+	"github.com/gofrs/uuid"
 	"github.com/ryuuzake/todolist-gofiber/model"
 	"github.com/ryuuzake/todolist-gofiber/repository"
 )
@@ -9,7 +10,7 @@ type TodolistServiceImpl struct {
 	Repository repository.TodolistRepository
 }
 
-func (service TodolistServiceImpl) GetAllTodolistWithTodoId(id int) ([]model.Todolist, error) {
+func (service TodolistServiceImpl) GetAllTodolistWithTodoId(id uuid.UUID) ([]model.Todolist, error) {
 	todolists, err := service.Repository.FindAllWithTodoId(id)
 
 	if err != nil {
@@ -19,7 +20,7 @@ func (service TodolistServiceImpl) GetAllTodolistWithTodoId(id int) ([]model.Tod
 	return todolists, nil
 }
 
-func (service TodolistServiceImpl) GetTodolistById(id int) (model.Todolist, error) {
+func (service TodolistServiceImpl) GetTodolistById(id uuid.UUID) (model.Todolist, error) {
 	todolist, err := service.Repository.FindById(id)
 
 	if err != nil {
@@ -29,7 +30,7 @@ func (service TodolistServiceImpl) GetTodolistById(id int) (model.Todolist, erro
 	return todolist, nil
 }
 
-func (service TodolistServiceImpl) CreateTodolistWithTodoId(id int, todolist model.Todolist) error {
+func (service TodolistServiceImpl) CreateTodolistWithTodoId(id uuid.UUID, todolist model.Todolist) error {
 	todolist.TodoId = id
 
 	if err := service.Repository.Create(todolist); err != nil {
@@ -39,7 +40,7 @@ func (service TodolistServiceImpl) CreateTodolistWithTodoId(id int, todolist mod
 	return nil
 }
 
-func (service TodolistServiceImpl) UpdateTodolistById(id int, todolist model.Todolist) error {
+func (service TodolistServiceImpl) UpdateTodolistById(id uuid.UUID, todolist model.Todolist) error {
 	if err := service.Repository.UpdateById(id, todolist); err != nil {
 		return err
 	}
@@ -47,7 +48,7 @@ func (service TodolistServiceImpl) UpdateTodolistById(id int, todolist model.Tod
 	return nil
 }
 
-func (service TodolistServiceImpl) DeleteTodolistById(id int) error {
+func (service TodolistServiceImpl) DeleteTodolistById(id uuid.UUID) error {
 	if err := service.Repository.DeleteById(id); err != nil {
 		return err
 	}

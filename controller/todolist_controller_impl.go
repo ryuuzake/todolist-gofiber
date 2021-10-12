@@ -2,10 +2,10 @@ package controller
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofrs/uuid"
 	"github.com/ryuuzake/todolist-gofiber/model"
 	"github.com/ryuuzake/todolist-gofiber/service"
 	"github.com/ryuuzake/todolist-gofiber/validator"
-	"strconv"
 )
 
 type TodolistControllerImpl struct {
@@ -13,7 +13,7 @@ type TodolistControllerImpl struct {
 }
 
 func (controller *TodolistControllerImpl) GetAllTodolist(ctx *fiber.Ctx) error {
-	todoId, err := strconv.Atoi(ctx.Params("todoId"))
+	todoId, err := uuid.FromString(ctx.Params("todoId"))
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "id not recognized",
@@ -32,7 +32,7 @@ func (controller *TodolistControllerImpl) GetAllTodolist(ctx *fiber.Ctx) error {
 }
 
 func (controller *TodolistControllerImpl) GetByIdTodolist(ctx *fiber.Ctx) error {
-	todolistId, err := strconv.Atoi(ctx.Params("todolistId"))
+	todolistId, err := uuid.FromString(ctx.Params("todolistId"))
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "id not recognized",
@@ -51,7 +51,7 @@ func (controller *TodolistControllerImpl) GetByIdTodolist(ctx *fiber.Ctx) error 
 }
 
 func (controller *TodolistControllerImpl) CreateTodolist(ctx *fiber.Ctx) error {
-	todoId, err := strconv.Atoi(ctx.Params("todoId"))
+	todoId, err := uuid.FromString(ctx.Params("todoId"))
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "id not recognized",
@@ -83,14 +83,14 @@ func (controller *TodolistControllerImpl) CreateTodolist(ctx *fiber.Ctx) error {
 }
 
 func (controller *TodolistControllerImpl) UpdateTodolist(ctx *fiber.Ctx) error {
-	todoId, err := strconv.Atoi(ctx.Params("todoId"))
+	todoId, err := uuid.FromString(ctx.Params("todoId"))
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "id not recognized",
 		})
 	}
 
-	todolistId, err := strconv.Atoi(ctx.Params("todolistId"))
+	todolistId, err := uuid.FromString(ctx.Params("todolistId"))
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "id not recognized",
@@ -122,7 +122,7 @@ func (controller *TodolistControllerImpl) UpdateTodolist(ctx *fiber.Ctx) error {
 }
 
 func (controller *TodolistControllerImpl) DeleteTodolist(ctx *fiber.Ctx) error {
-	todolistId, err := strconv.Atoi(ctx.Params("todolistId"))
+	todolistId, err := uuid.FromString(ctx.Params("todolistId"))
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "id not recognized",
