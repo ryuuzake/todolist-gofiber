@@ -21,7 +21,7 @@ CREATE TABLE users
     full_name       VARCHAR(255) NOT NULL,
     email           VARCHAR(255) NOT NULL,
     password        VARCHAR(255) NOT NULL,
-    forgot_password VARCHAR(255) NULL,
+    forget_password VARCHAR(255) NULL,
     role_id         UUID         NOT NULL,
     created_at      TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at      TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
