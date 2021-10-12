@@ -6,7 +6,6 @@ import (
 	"github.com/ryuuzake/todolist-gofiber/controller"
 	"github.com/ryuuzake/todolist-gofiber/domain"
 	"github.com/ryuuzake/todolist-gofiber/middleware"
-	"github.com/ryuuzake/todolist-gofiber/model"
 	"github.com/ryuuzake/todolist-gofiber/repository"
 	"github.com/ryuuzake/todolist-gofiber/service"
 	"log"
@@ -21,6 +20,7 @@ func main() {
 	roleRepository := repository.NewRoleRepositoryPostgresImpl()
 	todoRepository := repository.NewTodoRepositoryPostgresImpl()
 	todolistRepository := repository.NewTodolistRepositoryPostgresImpl()
+	attachmentRepository := repository.NewAttachmentRepositoryPostgresImpl()
 
 	domain.Admin(app, &controller.AdminControllerImpl{
 		Service: &service.AdminServiceImpl{
@@ -42,9 +42,7 @@ func main() {
 		},
 		&controller.AttachmentControllerImpl{
 			AttachmentService: &service.AttachmentServiceImpl{
-				Repository: &repository.AttachmentRepositoryInMemoryImpl{
-					Attachments: make([]model.Attachment, 0),
-				},
+				Repository: attachmentRepository,
 			},
 			FileUploadService: &service.FileUploadServiceImpl{},
 		},

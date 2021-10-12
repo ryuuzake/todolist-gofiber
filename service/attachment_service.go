@@ -1,11 +1,14 @@
 package service
 
-import "github.com/ryuuzake/todolist-gofiber/model"
+import (
+	"github.com/gofrs/uuid"
+	"github.com/ryuuzake/todolist-gofiber/model"
+)
 
 type AttachmentService interface {
-	GetAllAttachmentWithTodolistId(id int) ([]model.Attachment, error)
-	GetAttachmentById(id int) (model.Attachment, error)
-	CreateAttachmentWithTodolistId(id int, attachment model.Attachment) error
-	UpdateAttachmentById(id int, attachment model.Attachment) error
-	DeleteAttachmentById(id int) error
+	GetAllAttachmentWithTodolistId(id uuid.UUID) ([]model.Attachment, error)
+	GetAttachmentById(id uuid.UUID) (model.Attachment, error)
+	CreateAttachmentWithTodolistId(id uuid.UUID, attachment model.Attachment) error
+	UpdateAttachmentById(id uuid.UUID, attachment model.Attachment) error
+	DeleteAttachmentById(id uuid.UUID) error
 }

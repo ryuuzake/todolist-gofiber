@@ -28,10 +28,10 @@ type Status struct {
 }
 
 type Attachment struct {
-	Id         int
-	TodolistId int
-	Url        string
-	Caption    string
-	CreatedAt  time.Time
-	UpdatedAt  time.Time
+	Id         uuid.UUID `db:"id" json:"id"`
+	TodolistId uuid.UUID `db:"todolist_id" json:"todolist_id"`
+	Url        string    `db:"url" json:"url"`
+	Caption    string    `db:"caption" json:"caption"`
+	CreatedAt  time.Time `db:"created_at" json:"created_at"`
+	UpdatedAt  time.Time `db:"updated_at" json:"updated_at"`
 }
